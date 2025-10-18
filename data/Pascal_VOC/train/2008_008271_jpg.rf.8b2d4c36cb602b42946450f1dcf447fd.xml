@@ -1,0 +1,27 @@
+<annotation>
+	<folder></folder>
+	<filename>2008_008271_jpg.rf.8b2d4c36cb602b42946450f1dcf447fd.jpg</filename>
+	<path>2008_008271_jpg.rf.8b2d4c36cb602b42946450f1dcf447fd.jpg</path>
+	<source>
+		<database>roboflow.ai</database>
+	</source>
+	<size>
+		<width>432</width>
+		<height>288</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>sofa</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<occluded>0</occluded>
+		<bndbox>
+			<xmin>1</xmin>
+			<xmax>432</xmax>
+			<ymin>95</ymin>
+			<ymax>288</ymax>
+		</bndbox>
+	</object>
+</annotation>

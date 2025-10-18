@@ -1,0 +1,27 @@
+<annotation>
+	<folder></folder>
+	<filename>2009_004797_jpg.rf.7198a3ad3024a4b7a24fde329b6bf578.jpg</filename>
+	<path>2009_004797_jpg.rf.7198a3ad3024a4b7a24fde329b6bf578.jpg</path>
+	<source>
+		<database>roboflow.ai</database>
+	</source>
+	<size>
+		<width>500</width>
+		<height>375</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>bicycle</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<occluded>0</occluded>
+		<bndbox>
+			<xmin>50</xmin>
+			<xmax>473</xmax>
+			<ymin>15</ymin>
+			<ymax>369</ymax>
+		</bndbox>
+	</object>
+</annotation>

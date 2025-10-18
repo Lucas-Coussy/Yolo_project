@@ -1,0 +1,27 @@
+<annotation>
+	<folder></folder>
+	<filename>2009_004341_jpg.rf.9f7f8af27e93aadfbbdfe495e50f18bd.jpg</filename>
+	<path>2009_004341_jpg.rf.9f7f8af27e93aadfbbdfe495e50f18bd.jpg</path>
+	<source>
+		<database>roboflow.ai</database>
+	</source>
+	<size>
+		<width>500</width>
+		<height>334</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>tvmonitor</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<occluded>0</occluded>
+		<bndbox>
+			<xmin>53</xmin>
+			<xmax>500</xmax>
+			<ymin>1</ymin>
+			<ymax>291</ymax>
+		</bndbox>
+	</object>
+</annotation>

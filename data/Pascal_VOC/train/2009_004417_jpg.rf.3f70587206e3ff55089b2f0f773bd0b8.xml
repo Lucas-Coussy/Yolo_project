@@ -1,0 +1,27 @@
+<annotation>
+	<folder></folder>
+	<filename>2009_004417_jpg.rf.3f70587206e3ff55089b2f0f773bd0b8.jpg</filename>
+	<path>2009_004417_jpg.rf.3f70587206e3ff55089b2f0f773bd0b8.jpg</path>
+	<source>
+		<database>roboflow.ai</database>
+	</source>
+	<size>
+		<width>500</width>
+		<height>357</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>bus</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<occluded>0</occluded>
+		<bndbox>
+			<xmin>222</xmin>
+			<xmax>411</xmax>
+			<ymin>187</ymin>
+			<ymax>304</ymax>
+		</bndbox>
+	</object>
+</annotation>

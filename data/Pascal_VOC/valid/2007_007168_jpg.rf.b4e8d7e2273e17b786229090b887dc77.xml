@@ -1,0 +1,27 @@
+<annotation>
+	<folder></folder>
+	<filename>2007_007168_jpg.rf.b4e8d7e2273e17b786229090b887dc77.jpg</filename>
+	<path>2007_007168_jpg.rf.b4e8d7e2273e17b786229090b887dc77.jpg</path>
+	<source>
+		<database>roboflow.ai</database>
+	</source>
+	<size>
+		<width>375</width>
+		<height>500</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>train</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<occluded>0</occluded>
+		<bndbox>
+			<xmin>48</xmin>
+			<xmax>372</xmax>
+			<ymin>102</ymin>
+			<ymax>424</ymax>
+		</bndbox>
+	</object>
+</annotation>

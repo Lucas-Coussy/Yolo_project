@@ -1,0 +1,27 @@
+<annotation>
+	<folder></folder>
+	<filename>2009_005190_jpg.rf.eadcfe20bb063bbb5874cd5ae8ac6c7b.jpg</filename>
+	<path>2009_005190_jpg.rf.eadcfe20bb063bbb5874cd5ae8ac6c7b.jpg</path>
+	<source>
+		<database>roboflow.ai</database>
+	</source>
+	<size>
+		<width>341</width>
+		<height>500</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>bottle</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<occluded>0</occluded>
+		<bndbox>
+			<xmin>124</xmin>
+			<xmax>187</xmax>
+			<ymin>113</ymin>
+			<ymax>356</ymax>
+		</bndbox>
+	</object>
+</annotation>

@@ -1,0 +1,27 @@
+<annotation>
+	<folder></folder>
+	<filename>2007_009706_jpg.rf.82c4f9dbfaa01cc72c942fc5197bedf9.jpg</filename>
+	<path>2007_009706_jpg.rf.82c4f9dbfaa01cc72c942fc5197bedf9.jpg</path>
+	<source>
+		<database>roboflow.ai</database>
+	</source>
+	<size>
+		<width>500</width>
+		<height>375</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>diningtable</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<occluded>0</occluded>
+		<bndbox>
+			<xmin>114</xmin>
+			<xmax>469</xmax>
+			<ymin>223</ymin>
+			<ymax>375</ymax>
+		</bndbox>
+	</object>
+</annotation>
