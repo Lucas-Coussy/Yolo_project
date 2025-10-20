@@ -90,13 +90,11 @@ class CNN_model():
             df = self.df
 
         #encoded = []
-
         for filename in df['file_name'].unique():
             img_df = df[df['file_name'] == filename]
             y_true = self.encode_annotation(img_df)   # encode one image
             self.encoded_picture_annot.loc[len(self.encoded_picture_annot)+1] = [filename, y_true]
             #encoded.append(y_true)
-
         return 
         
     def Yolo1(self,C=None,S=None,B=None):
@@ -208,8 +206,12 @@ class CNN_model():
                 # Object loss
                 xy_loss = tf.square(cell_true[:, base+1] - cell_pred[:, base+1]) + tf.square(cell_true[:, base+2] - cell_pred[:, base+2])
 
-                cell_pred_w = tf.sqrt(tf.clip_by_value(cell_pred[:, base+3], 1e-6, 1e6)) #avoid negative value for square root
-                cell_pred_h = tf.sqrt(tf.clip_by_value(cell_pred[:, base+4], 1e-6, 1e6)) #avoid negative value for square root
+                #removed because the model learned negative values to reduce loss because i chipped them
+                #cell_pred_w = tf.sqrt(tf.clip_by_value(cell_pred[:, base+3], 1e-6, 1e6)) #avoid negative value for square root
+                #cell_pred_h = tf.sqrt(tf.clip_by_value(cell_pred[:, base+4], 1e-6, 1e6)) #avoid negative value for square root
+
+                cell_pred_w = tf.sqrt(tf.abs(cell_pred[:, base+3]) + 1e-6)
+                cell_pred_h = tf.sqrt(tf.abs(cell_pred[:, base+4]) + 1e-6)
                 wh_loss = tf.square(tf.sqrt(cell_true[:, base+3]) - cell_pred_w) + tf.square(tf.sqrt(cell_true[:, base+4]) - cell_pred_h)
                 
                 C_loss = tf.square(cell_true[:, base] - cell_pred[:, base])
