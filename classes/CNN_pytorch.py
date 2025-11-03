@@ -574,13 +574,13 @@ class YOLO_visual():
                 for b in range(self.B):
                     start = b * 5
                     conf, x, y, w, h = cell[start:start + 5]
-                    conf = 1 / (1 + np.exp(-conf))  # sigmoid for confidence
+                    #x = 1 / (1 + np.exp(-x))  # sigmoid
+                    #y = 1 / (1 + np.exp(-y))
+                    conf = 1 / (1 + np.exp(-conf))
 
                     # Compute image-space coordinates
-                    #x_img = (i + x) * img_w / self.S
-                    #y_img = (j + y) * img_h / self.S
-                    x_img = x * img_w 
-                    y_img = y * img_h 
+                    x_img = ((j + x) * img_w) / self.S
+                    y_img = ((i + y) * img_h) / self.S
                     w_img = w * img_w
                     h_img = abs(h) * img_h
 
