@@ -374,69 +374,41 @@ class YoloLoss(nn.Module):
         self.l_obj = l_obj
         self.l_nobj = l_nobj
 
-    def bbox_coordinate_format(self,bbox):
-        img_width, img_height = 448, 448
+    def iou(self, box1, box2):
+        
+        _, x1, y1, w1, h1 = box1
+        _, x2, y2, w2, h2 = box2
 
-        _,x,y,w,h=bbox
+        # Yolov1 loss use sqrt(w) and sqrt(h) so we square them
+        w1 = w1 ** 2
+        h1 = h1 ** 2
+        w2 = w2 ** 2
+        h2 = h2 ** 2
 
-        x_center = x * img_width
-        y_center = y * img_height
-        box_width = w * img_width
-        box_height = h * img_height
+        # we get the corner of our boxes
+        box1_x1 = x1 - w1 / 2
+        box1_y1 = y1 - h1 / 2
+        box1_x2 = x1 + w1 / 2
+        box1_y2 = y1 + h1 / 2
 
-        x1 = x_center - box_width / 2
-        y1 = y_center - box_height / 2
-        x2 = x_center + box_width / 2
-        y2 = y_center + box_height / 2
+        box2_x1 = x2 - w2 / 2
+        box2_y1 = y2 - h2 / 2
+        box2_x2 = x2 + w2 / 2
+        box2_y2 = y2 + h2 / 2
 
-        return x1.item(),y1.item(),x2.item(),y2.item()
+        # get intersection of our boxes
+        inter_x1 = torch.max(box1_x1, box2_x1)
+        inter_y1 = torch.max(box1_y1, box2_y1)
+        inter_x2 = torch.min(box1_x2, box2_x2)
+        inter_y2 = torch.min(box1_y2, box2_y2)
 
+        inter_area = torch.clamp(inter_x2 - inter_x1, min=0) * \
+                    torch.clamp(inter_y2 - inter_y1, min=0)
 
-    def iou(self, bbox_predicted, bbox_actual):
-        """
-        bbox_predicted, bbox_actual: tensors of shape [5] -> (conf, x, y, w, h)
-        All coordinates are expected in normalized [0,1] image space.
-        """
+        area1 = (box1_x2 - box1_x1) * (box1_y2 - box1_y1)
+        area2 = (box2_x2 - box2_x1) * (box2_y2 - box2_y1)
 
-        # Ensure numeric stability
-        eps = 1e-6
-
-        # Apply sigmoid to x, y to constrain between 0–1
-        _, x1, y1, w1, h1 = bbox_predicted
-        _, x2, y2, w2, h2 = bbox_actual
-
-        x1 = torch.sigmoid(x1)
-        y1 = torch.sigmoid(y1)
-        w1 = torch.abs(w1)
-        h1 = torch.abs(h1)
-
-        x2 = torch.clamp(x2, 0, 1)
-        y2 = torch.clamp(y2, 0, 1)
-        w2 = torch.clamp(w2, 0, 1)
-        h2 = torch.clamp(h2, 0, 1)
-
-        # Convert to corners
-        x1_min, x1_max = x1 - w1 / 2, x1 + w1 / 2
-        y1_min, y1_max = y1 - h1 / 2, y1 + h1 / 2
-        x2_min, x2_max = x2 - w2 / 2, x2 + w2 / 2
-        y2_min, y2_max = y2 - h2 / 2, y2 + h2 / 2
-
-        # Intersection
-        inter_xmin = torch.max(x1_min, x2_min)
-        inter_ymin = torch.max(y1_min, y2_min)
-        inter_xmax = torch.min(x1_max, x2_max)
-        inter_ymax = torch.min(y1_max, y2_max)
-
-        inter_w = torch.clamp(inter_xmax - inter_xmin, min=0)
-        inter_h = torch.clamp(inter_ymax - inter_ymin, min=0)
-        inter_area = inter_w * inter_h
-
-        # Union
-        area1 = w1 * h1
-        area2 = w2 * h2
-        union = area1 + area2 - inter_area + eps
-
-        return inter_area / union
+        return inter_area / (area1 + area2 - inter_area + 1e-6) #avoid division per 0
 
         
     def yolo_loss(self, pred, target):
