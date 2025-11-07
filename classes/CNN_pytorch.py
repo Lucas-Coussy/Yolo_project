@@ -173,7 +173,8 @@ class YOLOv1(nn.Module):
 
         # Fully connected layers for detection
         self.fc = Sequential(
-            Flatten(),
+            #Flatten(),
+            nn.Flatten(start_dim=1),
             Linear(7 * 7 * 1024, 4096),
             LeakyReLU(0.1),
             Dropout(0.5),
@@ -183,6 +184,10 @@ class YOLOv1(nn.Module):
     def forward(self, x):
         x = self.feature_extractor(x)   # ✅ fixed name
         x = self.fc(x)
+        if x.size(0) >= 2:
+            print("first 10 outputs image 0:", x[0, :10])
+            print("first 10 outputs image 1:", x[1, :10])
+
         x = x.view(-1, self.S, self.S, self.C + self.B * 5)
         return x
 
@@ -378,12 +383,11 @@ class YoloLoss(nn.Module):
         
         _, x1, y1, w1, h1 = box1
         _, x2, y2, w2, h2 = box2
-
+        #print("iou box1",box1 )
+        #print("iou box2",box2 )
         # Yolov1 loss use sqrt(w) and sqrt(h) so we square them
-        w1 = w1 ** 2
-        h1 = h1 ** 2
-        w2 = w2 ** 2
-        h2 = h2 ** 2
+        #w1, h1 = w1 ** 2, h1 ** 2
+        #w2, h2 = w2 ** 2, h2 ** 2
 
         # we get the corner of our boxes
         box1_x1 = x1 - w1 / 2
@@ -408,14 +412,25 @@ class YoloLoss(nn.Module):
         area1 = (box1_x2 - box1_x1) * (box1_y2 - box1_y1)
         area2 = (box2_x2 - box2_x1) * (box2_y2 - box2_y1)
 
-        return inter_area / (area1 + area2 - inter_area + 1e-6) #avoid division per 0
+        return inter_area / (area1 + area2 - inter_area + 1e-6) #avoid overflow
 
-        
+    def get_absolute_pos(self,i,j,box,is_pred=True):
+        x_abs = (j + box[1])/self.S
+        y_abs = (i + box[2])/self.S
+
+        #don't know why but by adding square it works now
+        #w_abs = box[3]**2
+        #h_abs = box[4]**2
+        if is_pred:
+            w_abs = torch.relu(box[3])
+            h_abs = torch.relu(box[4])
+        else:
+            w_abs = box[3]
+            h_abs = box[4]
+        #return torch.tensor([box[0], x_abs, y_abs, w_abs, h_abs], device=box.device)
+        return torch.stack([box[0], x_abs, y_abs, w_abs, h_abs])
+
     def yolo_loss(self, pred, target):
-        """
-        pred: (N, S, S, B*5 + C)
-        target: (N, S, S, 5 + C)
-        """
         lambda_coord = self.l_obj
         lambda_noobj = self.l_nobj
         batch_size = pred.size(0)
@@ -434,53 +449,79 @@ class YoloLoss(nn.Module):
                     # === Ground truth ===
                     true_box = target[n, i, j, 0:5]
                     true_classes = target[n, i, j, 5:]
-
+                    #print("true_box",true_box)
                     # if there’s an object in this cell
                     if true_box[0] == 1:
-
+                        #print("true_box",true_box)
+                        #print("true_classes",true_classes)
+                        #print("pred_boxes 0", pred_boxes[0])
+                        #print("pred_classes", pred_classes)
+                        #print("pred_boxes 1", pred_boxes[1])
                         # --- Find the best matching predicted box ---
-                        ious = torch.stack([self.iou(pred_box, true_box) for pred_box in pred_boxes])
+                        #ious = torch.stack([self.iou(pred_box, true_box) for pred_box in pred_boxes])
+                        ious = torch.stack([self.iou(self.get_absolute_pos(i,j,pred_box), self.get_absolute_pos(i,j,true_box,is_pred=False)) for pred_box in pred_boxes])
+                        #print("ious",ious)
+                        print("iou",ious)
                         best_box_idx = torch.argmax(ious)
                         best_box = pred_boxes[best_box_idx]
 
-                        # --- Coordinate loss ---
-                        # Apply sigmoid to x, y to keep them in [0,1]
-                        pred_xy = torch.sigmoid(best_box[1:3])
+                        # --- Coordinate loss --
+                        pred_xy = best_box[1:3]
+                        print("pred_xy",pred_xy)
                         true_xy = true_box[1:3]
+                        print("true_xy",true_xy)
                         xy_loss = torch.sum((pred_xy - true_xy) ** 2)
-
+                        #print("xy_loss",xy_loss)
                         # Width & height: predict square roots (YOLO trick)
                         pred_wh = best_box[3:5]
+                        pred_wh = torch.relu(best_box[3:5]) # to make it learn to predict positive
+                        print("pred_wh",pred_wh)
                         true_wh = true_box[3:5]
+                        print("true_wh",true_wh)
                         wh_loss = torch.sum((torch.sqrt(torch.abs(pred_wh + 1e-6)) -
                                             torch.sqrt(torch.abs(true_wh + 1e-6))) ** 2)
+                        #print("wh_loss",wh_loss)
 
                         # --- Object confidence loss ---
+                        #pred_conf = torch.sigmoid(best_box[0])
+                        #pred_conf = best_box[0]
                         pred_conf = torch.sigmoid(best_box[0])
-                        iou_score = ious[best_box_idx].detach()  # used as target for confidence
-                        conf_loss_obj = (pred_conf - iou_score) ** 2
 
+                        #print("pred_conf",pred_conf)
+                        iou_score = ious[best_box_idx].detach()  # used as target for confidence
+                        #print("iou_score",iou_score)
+                        conf_loss_obj = (pred_conf - iou_score) ** 2
+                        print("conf_loss_obj",conf_loss_obj)
+                        #print("")
                         # --- Class loss ---
                         pred_class_probs = torch.softmax(pred_classes, dim=-1)
+                        print("pred_class_probs",pred_class_probs)
+                        print("true_classes",true_classes)
                         class_loss = torch.sum((pred_class_probs - true_classes) ** 2)
-
-                        # --- Combine ---
+                        #print("class_loss",class_loss)
+                        #print("")
+                        
                         total_loss += (
                             lambda_coord * (xy_loss + wh_loss) +
                             conf_loss_obj +
                             class_loss
                         )
-
+                        
                     else:
-                        # --- No-object cells ---
-                        for b in range(self.B):
-                            pred_conf = torch.sigmoid(pred[n, i, j, b*5])
-                            conf_loss_noobj = (pred_conf - 0.0) ** 2
-                            total_loss += lambda_noobj * conf_loss_noobj
+                        ious = torch.stack([self.iou(self.get_absolute_pos(i,j,pred_box), self.get_absolute_pos(i,j,true_box,is_pred=True)) for pred_box in pred_boxes])
+                        best_box_idx = torch.argmax(ious)
+                        best_box = pred_boxes[best_box_idx]
 
+                        pred_conf = torch.sigmoid(best_box[0])
+                        conf_loss_noobj = (pred_conf - 0.0) ** 2
+                        #print("conf_loss_noobj",conf_loss_noobj)
+                        total_loss += lambda_noobj * conf_loss_noobj
+            #print("xy_loss",xy_loss)
+            #print("wh_loss",wh_loss)
+            #print(f"total_loss {n} ",total_loss)
         total_loss = total_loss / batch_size
         return total_loss
-
+    
 class YoloDataset(Dataset):
     def __init__(self, X_paths, Y_tensor, img_size=448):
         self.X_paths = X_paths
@@ -546,8 +587,6 @@ class YOLO_visual():
                 for b in range(self.B):
                     start = b * 5
                     conf, x, y, w, h = cell[start:start + 5]
-                    #x = 1 / (1 + np.exp(-x))  # sigmoid
-                    #y = 1 / (1 + np.exp(-y))
                     conf = 1 / (1 + np.exp(-conf))
 
                     # Compute image-space coordinates
@@ -601,3 +640,40 @@ class YOLO_visual():
 
         # Visualize
         self.display_yolo_predictions(pred, img_path, score_threshold=score_threshold)
+
+    
+    def Yolo_visualize_batch(self, model, img_paths, device, score_threshold=0.3):
+        model.eval()
+
+        imgs = []
+        original_imgs = []
+
+        # Chargement & préprocessing batch
+        for img_path in img_paths:
+            img = cv2.imread(img_path)
+            original_imgs.append(img.copy())
+            img = cv2.resize(img, (448, 448))
+            img_rgb = img[..., ::-1] / 255.0
+            img_tensor = torch.tensor(img_rgb, dtype=torch.float32).permute(2, 0, 1)
+            imgs.append(img_tensor)
+
+        if len(imgs) == 2:
+            diff = (imgs[0] - imgs[1]).abs().mean().item()
+            maxdiff = (imgs[0] - imgs[1]).abs().max().item()
+            print("Mean difference between preprocessed images:", diff)
+            print("Max difference:", maxdiff)
+        else:
+            print("Need exactly 2 images to compare.")
+
+        # Stack en batch : shape -> (batch, 3, 448, 448)
+        batch = torch.stack(imgs).to(device)
+
+        with torch.no_grad():
+            preds = model(batch)   # shape: (batch, S, S, C+B*5)
+            print("Différence max entre prédictions image 0 et image 1 :",(preds[0] - preds[1]).abs().max().item())
+        # Boucle image par image
+        for i in range(len(img_paths)):
+            pred = preds[i]  # prédiction uniquement de l'image i
+            if pred.shape[0] == self.C + self.B*5:
+                pred = pred.permute(1, 2, 0)
+            self.display_yolo_predictions(pred, img_paths[i], score_threshold=score_threshold)
