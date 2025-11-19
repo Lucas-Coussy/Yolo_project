@@ -1,0 +1,27 @@
+<annotation>
+	<folder></folder>
+	<filename>2010_003651_jpg.rf.596739664c72b192a0426496bd8d36fe.jpg</filename>
+	<path>2010_003651_jpg.rf.596739664c72b192a0426496bd8d36fe.jpg</path>
+	<source>
+		<database>roboflow.ai</database>
+	</source>
+	<size>
+		<width>333</width>
+		<height>500</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>pottedplant</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<occluded>0</occluded>
+		<bndbox>
+			<xmin>28</xmin>
+			<xmax>314</xmax>
+			<ymin>21</ymin>
+			<ymax>458</ymax>
+		</bndbox>
+	</object>
+</annotation>
