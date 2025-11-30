@@ -1,0 +1,27 @@
+<annotation>
+	<folder></folder>
+	<filename>2008_000064_jpg.rf.a5e342505c360e219b51460e49e2b9d3.jpg</filename>
+	<path>2008_000064_jpg.rf.a5e342505c360e219b51460e49e2b9d3.jpg</path>
+	<source>
+		<database>roboflow.ai</database>
+	</source>
+	<size>
+		<width>375</width>
+		<height>500</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>aeroplane</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<occluded>0</occluded>
+		<bndbox>
+			<xmin>1</xmin>
+			<xmax>375</xmax>
+			<ymin>152</ymin>
+			<ymax>461</ymax>
+		</bndbox>
+	</object>
+</annotation>

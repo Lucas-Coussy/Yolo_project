@@ -1,0 +1,27 @@
+<annotation>
+	<folder></folder>
+	<filename>2009_001370_jpg.rf.486d24862dbf30756ef4998a5f46c886.jpg</filename>
+	<path>2009_001370_jpg.rf.486d24862dbf30756ef4998a5f46c886.jpg</path>
+	<source>
+		<database>roboflow.ai</database>
+	</source>
+	<size>
+		<width>500</width>
+		<height>331</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>motorbike</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<occluded>0</occluded>
+		<bndbox>
+			<xmin>129</xmin>
+			<xmax>161</xmax>
+			<ymin>226</ymin>
+			<ymax>272</ymax>
+		</bndbox>
+	</object>
+</annotation>
