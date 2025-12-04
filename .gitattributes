@@ -1,1 +1,2 @@
 slurm/output/yolov1_trained.pth filter=lfs diff=lfs merge=lfs -text
+slurm/output/yolov2_trained.pth filter=lfs diff=lfs merge=lfs -text

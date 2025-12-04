@@ -1,0 +1,51 @@
+Audited 23 packages in 9ms
+Audited 3 packages in 6ms
+Input Notebook:  /home/lcoussy/Yolo_project/test_CNN_pytorch-pretrained_backbone.ipynb
+Output Notebook: /home/lcoussy/Yolo_project/test_CNN_pytorch-pretrained_backbone_out-986.ipynb
+Executing:   0%|          | 0/29 [00:00<?, ?cell/s]Executing notebook with kernel: yolo_kernel
+2025-12-04 13:25:15.573330: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2025-12-04 13:25:15.612650: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI AVX512_BF16 AVX512_FP16 AVX_VNNI AMX_TILE AMX_INT8 AMX_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2025-12-04 13:25:16.594446: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+Executing:   3%|▎         | 1/29 [00:04<01:52,  4.03s/cell]Executing:   7%|▋         | 2/29 [00:04<00:57,  2.13s/cell]Executing:  10%|█         | 3/29 [01:02<11:50, 27.33s/cell]Executing:  14%|█▍        | 4/29 [01:02<06:59, 16.76s/cell]Executing:  21%|██        | 6/29 [01:03<03:07,  8.16s/cell]Executing:  38%|███▊      | 11/29 [01:03<00:51,  2.84s/cell]Executing:  48%|████▊     | 14/29 [01:20<00:42,  2.84s/cell]Executing:  52%|█████▏    | 15/29 [2:41:10<4:00:07, 1029.14s/cell]Executing:  55%|█████▌    | 16/29 [2:42:38<3:15:57, 904.44s/cell] Executing:  59%|█████▊    | 17/29 [2:42:41<2:32:11, 760.98s/cell]Executing:  62%|██████▏   | 18/29 [2:42:44<1:53:45, 620.53s/cell]Executing:  66%|██████▌   | 19/29 [2:42:53<1:22:03, 492.37s/cell]Executing:  69%|██████▉   | 20/29 [2:42:56<56:57, 379.73s/cell]  [ WARN:0@9776.843] global cap_ffmpeg.cpp:198 write FFmpeg: Failed to write frame
+Executing:  72%|███████▏  | 21/29 [2:43:00<38:14, 286.77s/cell]Executing:  72%|███████▏  | 21/29 [2:43:03<1:02:06, 465.87s/cell]
+Traceback (most recent call last):
+  File "/home/lcoussy/slurm/yolo-project/train/.venv/bin/papermill", line 10, in <module>
+    sys.exit(papermill())
+             ^^^^^^^^^^^
+  File "/home/lcoussy/slurm/yolo-project/train/.venv/lib/python3.12/site-packages/click/core.py", line 1485, in __call__
+    return self.main(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lcoussy/slurm/yolo-project/train/.venv/lib/python3.12/site-packages/click/core.py", line 1406, in main
+    rv = self.invoke(ctx)
+         ^^^^^^^^^^^^^^^^
+  File "/home/lcoussy/slurm/yolo-project/train/.venv/lib/python3.12/site-packages/click/core.py", line 1269, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lcoussy/slurm/yolo-project/train/.venv/lib/python3.12/site-packages/click/core.py", line 824, in invoke
+    return callback(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lcoussy/slurm/yolo-project/train/.venv/lib/python3.12/site-packages/click/decorators.py", line 34, in new_func
+    return f(get_current_context(), *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lcoussy/slurm/yolo-project/train/.venv/lib/python3.12/site-packages/papermill/cli.py", line 235, in papermill
+    execute_notebook(
+  File "/home/lcoussy/slurm/yolo-project/train/.venv/lib/python3.12/site-packages/papermill/execute.py", line 131, in execute_notebook
+    raise_for_execution_errors(nb, output_path)
+  File "/home/lcoussy/slurm/yolo-project/train/.venv/lib/python3.12/site-packages/papermill/execute.py", line 251, in raise_for_execution_errors
+    raise error
+papermill.exceptions.PapermillExecutionError: 
+---------------------------------------------------------------------------
+Exception encountered at "In [19]":
+---------------------------------------------------------------------------
+error                                     Traceback (most recent call last)
+Cell In[19], line 25
+     23 # Write to video and display in real-time
+     24 out.write(frame_out)
+---> 25 cv2.imshow("YOLO Detection", frame_out)
+     27 if cv2.waitKey(1) & 0xFF == ord("q"):
+     28     break
+
+error: OpenCV(4.12.0) /io/opencv/modules/highgui/src/window.cpp:1301: error: (-2:Unspecified error) The function is not implemented. Rebuild the library with Windows, GTK+ 2.x or Cocoa support. If you are on Ubuntu or Debian, install libgtk2.0-dev and pkg-config, then re-run cmake or configure script in function 'cvShowImage'
+
+
