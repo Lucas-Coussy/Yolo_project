@@ -1,0 +1,9 @@
+=== Informations SLURM ===
+Job ID : 1103
+Noeud : morgoth
+GPU(s) alloué(s) : 0
+--------------------------
+=== Préparation de l'environnement uv ===
+Installed kernelspec yolo_kernel in /home/lcoussy/.local/share/jupyter/kernels/yolo_kernel
+=== Notebook exécuté ===
+Résultat enregistré dans : /home/lcoussy/Yolo_project/test_CNN_pytorch-pretrained_backbone_out-1103.ipynb
