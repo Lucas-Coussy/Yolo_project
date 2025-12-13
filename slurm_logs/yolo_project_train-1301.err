@@ -1,0 +1,64 @@
+Audited 23 packages in 11ms
+Audited 3 packages in 8ms
+Input Notebook:  /home/lcoussy/Yolo_project/test_CNN_pytorch-pretrained_backbone.ipynb
+Output Notebook: /home/lcoussy/Yolo_project/test_CNN_pytorch-pretrained_backbone_out-1301.ipynb
+Executing:   0%|          | 0/22 [00:00<?, ?cell/s]Executing notebook with kernel: yolo_kernel
+2025-12-13 20:16:32.784850: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2025-12-13 20:16:32.829712: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI AVX512_BF16 AVX512_FP16 AVX_VNNI AMX_TILE AMX_INT8 AMX_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2025-12-13 20:16:33.848513: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+Executing:   5%|▍         | 1/22 [00:04<01:25,  4.09s/cell]Executing:   9%|▉         | 2/22 [00:04<00:43,  2.16s/cell]Executing:  45%|████▌     | 10/22 [00:05<00:03,  3.34cell/s]Executing:  45%|████▌     | 10/22 [00:06<00:08,  1.49cell/s]
+Traceback (most recent call last):
+  File "/home/lcoussy/slurm/yolo-project/train/.venv/bin/papermill", line 10, in <module>
+    sys.exit(papermill())
+             ^^^^^^^^^^^
+  File "/home/lcoussy/slurm/yolo-project/train/.venv/lib/python3.12/site-packages/click/core.py", line 1485, in __call__
+    return self.main(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lcoussy/slurm/yolo-project/train/.venv/lib/python3.12/site-packages/click/core.py", line 1406, in main
+    rv = self.invoke(ctx)
+         ^^^^^^^^^^^^^^^^
+  File "/home/lcoussy/slurm/yolo-project/train/.venv/lib/python3.12/site-packages/click/core.py", line 1269, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lcoussy/slurm/yolo-project/train/.venv/lib/python3.12/site-packages/click/core.py", line 824, in invoke
+    return callback(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lcoussy/slurm/yolo-project/train/.venv/lib/python3.12/site-packages/click/decorators.py", line 34, in new_func
+    return f(get_current_context(), *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lcoussy/slurm/yolo-project/train/.venv/lib/python3.12/site-packages/papermill/cli.py", line 235, in papermill
+    execute_notebook(
+  File "/home/lcoussy/slurm/yolo-project/train/.venv/lib/python3.12/site-packages/papermill/execute.py", line 131, in execute_notebook
+    raise_for_execution_errors(nb, output_path)
+  File "/home/lcoussy/slurm/yolo-project/train/.venv/lib/python3.12/site-packages/papermill/execute.py", line 251, in raise_for_execution_errors
+    raise error
+papermill.exceptions.PapermillExecutionError: 
+---------------------------------------------------------------------------
+Exception encountered at "In [9]":
+---------------------------------------------------------------------------
+ValueError                                Traceback (most recent call last)
+Cell In[9], line 4
+      1 train_dataset = YoloDataset(X_train, y_train)
+      2 test_dataset = YoloDataset(X_test, y_test)
+----> 4 train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True)
+      5 test_loader = DataLoader(test_dataset, batch_size=32, shuffle=False)
+
+File ~/slurm/yolo-project/train/.venv/lib/python3.12/site-packages/torch/utils/data/dataloader.py:388, in DataLoader.__init__(self, dataset, batch_size, shuffle, sampler, batch_sampler, num_workers, collate_fn, pin_memory, drop_last, timeout, worker_init_fn, multiprocessing_context, generator, prefetch_factor, persistent_workers, pin_memory_device, in_order)
+    386 else:  # map-style
+    387     if shuffle:
+--> 388         sampler = RandomSampler(dataset, generator=generator)  # type: ignore[arg-type]
+    389     else:
+    390         sampler = SequentialSampler(dataset)  # type: ignore[arg-type]
+
+File ~/slurm/yolo-project/train/.venv/lib/python3.12/site-packages/torch/utils/data/sampler.py:162, in RandomSampler.__init__(self, data_source, replacement, num_samples, generator)
+    157     raise TypeError(
+    158         f"replacement should be a boolean value, but got replacement={self.replacement}"
+    159     )
+    161 if not isinstance(self.num_samples, int) or self.num_samples <= 0:
+--> 162     raise ValueError(
+    163         f"num_samples should be a positive integer value, but got num_samples={self.num_samples}"
+    164     )
+
+ValueError: num_samples should be a positive integer value, but got num_samples=0
+

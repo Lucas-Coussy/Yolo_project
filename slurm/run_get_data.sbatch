@@ -14,9 +14,6 @@ unset VIRTUAL_ENV
 export PATH="$HOME/.local/bin:$PATH" 
 UV_PROJECT=$HOME/slurm/yolo-project/get_data
 
-# NOTEBOOK_PATH="$HOME/Yolo_project/test_CNN_pytorch-pretrained_backbone.ipynb"
-# OUTPUT_NOTEBOOK="$HOME/Yolo_project/test_CNN_pytorch-pretrained_backbone_out-${SLURM_JOB_ID}.ipynb"
-
 FORMAT_SCRIPT="$HOME/Yolo_project/Format_dataset.py"
 
 echo "=== Informations SLURM ==="
@@ -40,16 +37,11 @@ fi
 
 uv pip install -r /home/lcoussy/Yolo_project/slurm/requirements.txt
 uv pip install kaggle
-# uv pip install torch papermill jupyter
 
 export TRANSFORMERS_VERBOSITY=info
-
-# uv run python -m ipykernel install --user --name=yolo_kernel
-# uv run papermill "$NOTEBOOK_PATH" "$OUTPUT_NOTEBOOK" -k yolo_kernel
 
 mkdir -p "$(dirname "$FORMAT_SCRIPT")"
 
 uv run python "$FORMAT_SCRIPT"
 
 echo "=== Script exécuté ==="
-# echo "Résultat enregistré dans : $OUTPUT_NOTEBOOK"

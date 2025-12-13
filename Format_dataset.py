@@ -29,7 +29,7 @@ def download_voc_from_kaggle(dataset="bardiaardakanian/voc0712", dest="/home/lco
 ### Format data
 
 # ---------------- CONFIG ----------------
-VOC_ROOT = r"/home/lcoussy/Yolo_project/VOC_dataset/VOCdevkit"
+VOC_ROOT = r"/home/lcoussy/Yolo_project/VOC_dataset/VOC_dataset/VOCdevkit"
 OUT_ROOT = "/home/lcoussy/Yolo_project/dataset"
 TRAIN_SPLIT = 0.9
 SEED = 42
