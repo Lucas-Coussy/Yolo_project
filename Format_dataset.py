@@ -9,7 +9,7 @@ import subprocess
 
 ### download data
 
-def download_voc_from_kaggle(dataset="bardiaardakanian/voc0712", dest="VOC_dataset"):
+def download_voc_from_kaggle(dataset="bardiaardakanian/voc0712", dest="/home/lcoussy/Yolo_project/VOC_dataset"):
     # Only download if not already present
     if not os.path.exists(dest):
         os.makedirs(dest, exist_ok=True)
@@ -29,8 +29,8 @@ def download_voc_from_kaggle(dataset="bardiaardakanian/voc0712", dest="VOC_datas
 ### Format data
 
 # ---------------- CONFIG ----------------
-VOC_ROOT = r"VOC_dataset/VOCdevkit"
-OUT_ROOT = "dataset"
+VOC_ROOT = r"/home/lcoussy/Yolo_project/VOC_dataset/VOCdevkit"
+OUT_ROOT = "/home/lcoussy/Yolo_project/dataset"
 TRAIN_SPLIT = 0.9
 SEED = 42
 USE_SETS = ["VOC2007", "VOC2012"]

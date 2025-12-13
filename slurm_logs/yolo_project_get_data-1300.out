@@ -1,0 +1,14 @@
+=== Informations SLURM ===
+Job ID : 1300
+Noeud : morgoth
+GPU(s) alloué(s) : 0
+--------------------------
+=== Préparation de l'environnement uv ===
+Dataset URL: https://www.kaggle.com/datasets/bardiaardakanian/voc0712
+License(s): CC0-1.0
+Downloading voc0712.zip to /home/lcoussy/Yolo_project/VOC_dataset
+
+Downloading VOC dataset from Kaggle…
+Download completed.
+VOC conversion complete
+=== Script exécuté ===
