@@ -5,6 +5,29 @@ import hashlib
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
+import subprocess
+
+### download data
+
+def download_voc_from_kaggle(dataset="bardiaardakanian/voc0712", dest="VOC_dataset"):
+    # Only download if not already present
+    if not os.path.exists(dest):
+        os.makedirs(dest, exist_ok=True)
+
+        cmd = [
+            "kaggle", "datasets", "download",
+            "-d", dataset,
+            "-p", dest,
+            "--unzip"
+        ]
+        print("Downloading VOC dataset from Kaggle…")
+        subprocess.run(cmd, check=True)
+        print("Download completed.")
+    else:
+        print("VOC dataset already exists locally!")
+
+### Format data
+
 # ---------------- CONFIG ----------------
 VOC_ROOT = r"VOC_dataset/VOCdevkit"
 OUT_ROOT = "dataset"
@@ -72,5 +95,7 @@ def main():
             tree.write(out_dir / f"{new_name}.xml")
 
     print("VOC conversion complete")
+
+download_voc_from_kaggle()
 
 main()
