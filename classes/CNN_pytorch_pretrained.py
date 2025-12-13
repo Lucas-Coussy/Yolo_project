@@ -43,10 +43,15 @@ class CNN_model():
                     cls_id = self.classes.index(cls)
 
                 xmlbox = obj.find("bndbox")
-                xmin = int(xmlbox.find("xmin").text)
-                ymin = int(xmlbox.find("ymin").text)
-                xmax = int(xmlbox.find("xmax").text)
-                ymax = int(xmlbox.find("ymax").text)
+                xmin = float(xmlbox.find("xmin").text)
+                ymin = float(xmlbox.find("ymin").text)
+                xmax = float(xmlbox.find("xmax").text)
+                ymax = float(xmlbox.find("ymax").text)
+
+                xmin = int(round(xmin))
+                ymin = int(round(ymin))
+                xmax = int(round(xmax))
+                ymax = int(round(ymax))
 
                 # format our data for yolo
                 x_center = ((xmin + xmax) / 2) / img_width #normalized coordinates
@@ -603,26 +608,26 @@ class YoloLoss(nn.Module):
         #print(true_box_obj[..., 1:5])
 
         xy_loss = torch.sum((pred_boxes_obj[...,1:3] - true_box_obj[...,1:3])**2)
-        #print("xy_loss",xy_loss)
+        print("xy_loss",xy_loss)
         wh_loss = torch.sum((torch.sqrt(torch.relu(pred_boxes_obj[...,3:5]) + 1e-6) - torch.sqrt(torch.relu(true_box_obj[...,3:5] + 1e-6)))**2)
-        #print("wh_loss",wh_loss)
+        print("wh_loss",wh_loss)
         #pred_conf_obj = torch.sigmoid(pred_boxes_obj[...,0])
         pred_conf_obj = pred_boxes_obj[...,0]
         #print(pred_conf_obj,torch.ones_like(pred_conf_obj))
         conf_loss_obj = torch.sum((pred_conf_obj - torch.ones_like(pred_conf_obj))**2) #create a one tensor of same dim as pred_conf
-        #print("conf_loss_obj",conf_loss_obj)
+        print("conf_loss_obj",conf_loss_obj)
         #pred_class_probs = torch.softmax(pred_cls_obj, dim=-1)
         pred_class_probs = pred_cls_obj
         #print("class ", pred_class_probs,true_cls_obj)
         class_loss = torch.sum((pred_class_probs - true_cls_obj)**2)
-        #print("class_loss",class_loss)
+        print("class_loss",class_loss)
 
         ## no obj part
         #pred_conf_noobj = torch.sigmoid(pred_boxes_noobj[...,0])
         pred_conf_noobj = pred_boxes_noobj[...,0]
         #print(pred_conf_noobj,torch.zeros_like(pred_conf_noobj))
         conf_loss_noobj = torch.sum((pred_conf_noobj - torch.zeros_like(pred_conf_noobj))**2)
-        #print("conf_loss_noobj",conf_loss_noobj)
+        print("conf_loss_noobj",conf_loss_noobj)
         total_loss += lambda_coord * (xy_loss + wh_loss) + (conf_loss_obj + class_loss) + lambda_noobj * conf_loss_noobj
 
         return total_loss / N
