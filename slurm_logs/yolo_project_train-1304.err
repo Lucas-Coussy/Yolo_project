@@ -1,0 +1,71 @@
+Audited 23 packages in 11ms
+Audited 3 packages in 7ms
+Input Notebook:  /home/lcoussy/Yolo_project/test_CNN_pytorch-pretrained_backbone.ipynb
+Output Notebook: /home/lcoussy/Yolo_project/test_CNN_pytorch-pretrained_backbone_out-1304.ipynb
+Executing:   0%|          | 0/22 [00:00<?, ?cell/s]Executing notebook with kernel: yolo_kernel
+2025-12-14 12:00:05.155365: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2025-12-14 12:00:05.200614: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI AVX512_BF16 AVX512_FP16 AVX_VNNI AMX_TILE AMX_INT8 AMX_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2025-12-14 12:00:06.221184: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+Executing:   5%|▍         | 1/22 [00:04<01:24,  4.04s/cell]Executing:   9%|▉         | 2/22 [00:04<00:42,  2.14s/cell]Executing:  18%|█▊        | 4/22 [04:29<25:05, 83.62s/cell]Executing:  23%|██▎       | 5/22 [04:30<16:26, 58.06s/cell]Executing:  32%|███▏      | 7/22 [04:31<07:48, 31.22s/cell]Executing:  55%|█████▍    | 12/22 [04:31<01:56, 11.69s/cell]Executing:  68%|██████▊   | 15/22 [04:50<01:21, 11.69s/cell]Autosave too slow: 7.62 sec, over 25% limit. Backing off to 60 sec
+Executing:  73%|███████▎  | 16/22 [11:08:38<6:56:13, 4162.30s/cell]Executing:  77%|███████▋  | 17/22 [11:08:58<5:02:06, 3625.22s/cell]Executing:  77%|███████▋  | 17/22 [11:09:02<3:16:46, 2361.34s/cell]
+Traceback (most recent call last):
+  File "/home/lcoussy/slurm/yolo-project/train/.venv/bin/papermill", line 10, in <module>
+    sys.exit(papermill())
+             ^^^^^^^^^^^
+  File "/home/lcoussy/slurm/yolo-project/train/.venv/lib/python3.12/site-packages/click/core.py", line 1485, in __call__
+    return self.main(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lcoussy/slurm/yolo-project/train/.venv/lib/python3.12/site-packages/click/core.py", line 1406, in main
+    rv = self.invoke(ctx)
+         ^^^^^^^^^^^^^^^^
+  File "/home/lcoussy/slurm/yolo-project/train/.venv/lib/python3.12/site-packages/click/core.py", line 1269, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lcoussy/slurm/yolo-project/train/.venv/lib/python3.12/site-packages/click/core.py", line 824, in invoke
+    return callback(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lcoussy/slurm/yolo-project/train/.venv/lib/python3.12/site-packages/click/decorators.py", line 34, in new_func
+    return f(get_current_context(), *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lcoussy/slurm/yolo-project/train/.venv/lib/python3.12/site-packages/papermill/cli.py", line 235, in papermill
+    execute_notebook(
+  File "/home/lcoussy/slurm/yolo-project/train/.venv/lib/python3.12/site-packages/papermill/execute.py", line 131, in execute_notebook
+    raise_for_execution_errors(nb, output_path)
+  File "/home/lcoussy/slurm/yolo-project/train/.venv/lib/python3.12/site-packages/papermill/execute.py", line 251, in raise_for_execution_errors
+    raise error
+papermill.exceptions.PapermillExecutionError: 
+---------------------------------------------------------------------------
+Exception encountered at "In [14]":
+---------------------------------------------------------------------------
+FileNotFoundError                         Traceback (most recent call last)
+Cell In[14], line 9
+      6 optimizer = optim.Adam(model.parameters(), lr=1e-4, weight_decay=1e-5)
+      8 loaded_model = YOLOv1(S=S, B=B, C=C).to(device)
+----> 9 loaded_model.load_state_dict(torch.load("yolov1_trained4.pth", map_location=device))
+     10 loaded_model.eval()
+     11 print("🔁 Loaded model from yolov1_trained4.pth")
+
+File ~/slurm/yolo-project/train/.venv/lib/python3.12/site-packages/torch/serialization.py:1484, in load(f, map_location, pickle_module, weights_only, mmap, **pickle_load_args)
+   1481 if "encoding" not in pickle_load_args.keys():
+   1482     pickle_load_args["encoding"] = "utf-8"
+-> 1484 with _open_file_like(f, "rb") as opened_file:
+   1485     if _is_zipfile(opened_file):
+   1486         # The zipfile reader is going to advance the current file position.
+   1487         # If we want to actually tail call to torch.jit.load, we need to
+   1488         # reset back to the original position.
+   1489         orig_position = opened_file.tell()
+
+File ~/slurm/yolo-project/train/.venv/lib/python3.12/site-packages/torch/serialization.py:759, in _open_file_like(name_or_buffer, mode)
+    757 def _open_file_like(name_or_buffer: FileLike, mode: str) -> _opener[IO[bytes]]:
+    758     if _is_path(name_or_buffer):
+--> 759         return _open_file(name_or_buffer, mode)
+    760     else:
+    761         if "w" in mode:
+
+File ~/slurm/yolo-project/train/.venv/lib/python3.12/site-packages/torch/serialization.py:740, in _open_file.__init__(self, name, mode)
+    739 def __init__(self, name: Union[str, os.PathLike[str]], mode: str) -> None:
+--> 740     super().__init__(open(name, mode))
+
+FileNotFoundError: [Errno 2] No such file or directory: 'yolov1_trained4.pth'
+

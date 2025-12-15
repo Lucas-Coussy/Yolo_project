@@ -1,0 +1,7 @@
+=== Informations SLURM ===
+Job ID : 1303
+Noeud : morgoth
+GPU(s) alloué(s) : 0
+--------------------------
+=== Préparation de l'environnement uv ===
+Installed kernelspec yolo_kernel in /home/lcoussy/.local/share/jupyter/kernels/yolo_kernel

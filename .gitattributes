@@ -2,3 +2,5 @@ slurm/output/yolov1_trained.pth filter=lfs diff=lfs merge=lfs -text
 slurm/output/yolov1_trained2.pth filter=lfs diff=lfs merge=lfs -text
 slurm/output/yolov1_trained3.pth filter=lfs diff=lfs merge=lfs -text
 slurm/output/yolov1_trained4.pth filter=lfs diff=lfs merge=lfs -text
+data/encoded_picture.pt filter=lfs diff=lfs merge=lfs -text
+slurm/output/test_CNN_pytorch-pretrained_backbone_out-1304.ipynb filter=lfs diff=lfs merge=lfs -text
