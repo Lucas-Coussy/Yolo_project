@@ -130,7 +130,7 @@ class YOLOHead2(nn.Module):
             nn.Flatten(),  # (N, 1024*7*7)
 
             nn.Linear(1024 * S * S, 4096),
-            nn.LeakyReLU(0.1),
+            nn.LeakyReLU(negative_slope=0.1),
             
             Dropout(0.5),
             nn.Linear(4096, S * S * depth)  # final YOLO tensor
